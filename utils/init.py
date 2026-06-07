@@ -44,12 +44,17 @@ class RssblogSource(object):
                 print(f"Failed to fetch from {source_url}: {e}")
                 continue
 
-        # 如果所有源都失败，使用默认值或抛出更详细的错误
-        if self._url is not None:
-            print("Using cached data due to fetch failure")
-            return self._url, self._batch
-
-        raise Exception(f"get source error: all sources failed. Last error: {last_error}")
+        # 如果所有源都失败，使用默认空数据结构让应用能启动
+        print(f"All sources failed. Using default empty data. Last error: {last_error}")
+        self._url = {
+            "all": 1,
+            "member": 1,
+            "source": {},
+            "date": [],
+            "user": []
+        }
+        self._batch = "default"
+        return self._url, self._batch
 
     @staticmethod
     def _date(date_ls):
