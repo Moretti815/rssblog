@@ -3,31 +3,53 @@ import os
 import time
 import requests
 import buffercache
-# SOURCE_BASE = "https://gitee.com/Moretti815/rssblog-source/raw/public/"
-# SOURCE_BASE = "https://raw.githubusercontent.com/Moretti815/rssblog-source/public/"
+
+# 主源和备用源
 SOURCE_BASE = "https://cdn.jsdelivr.net/gh/Moretti815/rssblog-source@public/"
-SOURCE_URL = SOURCE_BASE + "stats.min.json"
+SOURCE_BASE_LIST = [
+    SOURCE_BASE,
+    "https://raw.githubusercontent.com/Moretti815/rssblog-source/public/",
+]
 
 
 class RssblogSource(object):
     def __init__(self):
         self._bc = buffercache.BufferCache(timeout=1000*60*60*3).set_getter(self._update)
+        self._url = None
+        self._batch = None
 
     def _update(self):
-        raw = requests.get(SOURCE_URL)
-        print(f"get source {raw.status_code} from {SOURCE_URL}")
-        if raw.status_code != 200:
-            raise Exception("get source error")
-        self._source_json = json.loads(raw.text)
-        print("[{}] update rssblog source".format(os.getpid()), time.time())
-        self._batch = self._source_json["batch"]
-        self._url = self._source_json["urls"]
+        last_error = None
+        for source_base in SOURCE_BASE_LIST:
+            source_url = source_base + "stats.min.json"
+            try:
+                print(f"Trying to fetch from: {source_url}")
+                raw = requests.get(source_url, timeout=10)
+                print(f"get source {raw.status_code} from {source_url}")
+                if raw.status_code == 200:
+                    self._source_json = json.loads(raw.text)
+                    print("[{}] update rssblog source".format(os.getpid()), time.time())
+                    self._batch = self._source_json["batch"]
+                    self._url = self._source_json["urls"]
 
-        self._url["source"] = self._source(self._url["source"])
-        self._url["date"] = self._date(self._url["date"])
-        for user in self._url["user"]:
-            user["date"] = self._date(user["date"])
-        return self._url, self._batch
+                    self._url["source"] = self._source(self._url["source"])
+                    self._url["date"] = self._date(self._url["date"])
+                    for user in self._url["user"]:
+                        user["date"] = self._date(user["date"])
+                    return self._url, self._batch
+                else:
+                    last_error = f"Status code: {raw.status_code}"
+            except Exception as e:
+                last_error = str(e)
+                print(f"Failed to fetch from {source_url}: {e}")
+                continue
+
+        # 如果所有源都失败，使用默认值或抛出更详细的错误
+        if self._url is not None:
+            print("Using cached data due to fetch failure")
+            return self._url, self._batch
+
+        raise Exception(f"get source error: all sources failed. Last error: {last_error}")
 
     @staticmethod
     def _date(date_ls):
