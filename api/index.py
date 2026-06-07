@@ -5,8 +5,7 @@ import random
 import json
 import os
 import sys
-root_path = os.path.abspath(__file__)
-root_path = '/'.join(root_path.split('/')[:-2])
+root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_path)
 
 from utils.init import RssblogSource, SOURCE_BASE
@@ -27,7 +26,7 @@ print("init flask done")
 
 print("init markdown")
 Markdown(app, extensions=['fenced_code'])
-md = markdown("./README.md", locale=True)
+md = markdown(os.path.join(root_path, "README.md"), locale=True)
 print("init markdown done")
 
 print("init meta")
