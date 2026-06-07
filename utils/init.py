@@ -5,7 +5,7 @@ import requests
 import buffercache
 
 # 主源和备用源
-SOURCE_BASE = "https://rss-api.2005815.xyz/"
+SOURCE_BASE = "https://cdn.jsdmirror.com/gh/Moretti815/rssblog-source@public/"
 SOURCE_BASE_LIST = [
     SOURCE_BASE,
     "https://raw.githubusercontent.com/Moretti815/rssblog-source/public/",
