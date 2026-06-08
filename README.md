@@ -18,7 +18,7 @@ RSSBlog 是一个基于RSS的博客内容聚合站. 想法来源: [volfclub/trav
 
 一般情况下，贴上你的订阅链接即可，通过提交[issue](https://github.com/moretti815/rssblog/issues)：
 ```
-"https://imcbc.cn/index.xml"
+"https://rss.2005815.xyz/rss.xml"
 ```
 
 提交的[issue](https://github.com/moretti815/rssblog/issues)将经过人工筛选, 以保证内容干净.
@@ -27,7 +27,7 @@ RSSBlog 是一个基于RSS的博客内容聚合站. 想法来源: [volfclub/trav
 
 您可以在底部或者其他地方接入:
 ```HTML
-<a href="https://rssblog.imcbc.cn" target="_blank" rel="noopener" title="RSSBlog">
+<a href="https://rss.2005815.xyz" target="_blank" rel="noopener" title="RSSBlog">
     <i class='fas fa-fw fa-inbox'></i>RSSBlog
 </a>
 ```
