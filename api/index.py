@@ -230,9 +230,73 @@ def about():
 
 
 @app.route('/rss/')
-def rss(base_url='all'):
-    url = SOURCE_BASE + base_url + '/rss.xml'
+def rss_page():
+    import time
+    data = fetch(SOURCE_BASE + 'all/rss.xml', type="xml")
+    items = parse_rss_for_display(data)
+    return render_template('rss.html', 
+                           items=items,
+                           val=int(time.time()))
+
+@app.route('/rss.xml')
+def rss_xml():
+    url = SOURCE_BASE + 'all/rss.xml'
     return fetch(url, type="xml"), 200, {'Content-Type': 'text/xml; charset=utf-8'}
+
+def parse_rss_for_display(xml_content):
+    import re
+    items = []
+    
+    item_pattern = r'<item>(.*?)</item>'
+    items_raw = re.findall(item_pattern, xml_content, re.DOTALL)
+    
+    for item_raw in items_raw:
+        title = re.search(r'<title>(.*?)</title>', item_raw)
+        link = re.search(r'<link>(.*?)</link>', item_raw)
+        author = re.search(r'<author>(.*?)</author>', item_raw)
+        pub_date = re.search(r'<pubDate>(.*?)</pubDate>', item_raw)
+        description = re.search(r'<description>(.*?)</description>', item_raw)
+        
+        item = {
+            'title': title.group(1) if title else '',
+            'link': link.group(1) if link else '',
+            'author': author.group(1) if author else '',
+            'date': format_date(pub_date.group(1)) if pub_date else '',
+            'description': description.group(1) if description else '',
+            'image': extract_image_from_description(description.group(1) if description else ''),
+            'source': extract_source_from_link(link.group(1) if link else '')
+        }
+        items.append(item)
+    
+    return items
+
+def format_date(date_str):
+    import re
+    date_pattern = r'(\w+), (\d+) (\w+) (\d+) (\d+):(\d+):(\d+)'
+    match = re.match(date_pattern, date_str)
+    if match:
+        months = {'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                  'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'}
+        day, month, year = match.group(2), match.group(3), match.group(4)
+        return f"{year}-{months.get(month, month)}-{day.zfill(2)}"
+    return date_str
+
+def extract_image_from_description(description):
+    import re
+    if not description:
+        return None
+    img_pattern = r'<img[^>]+src=["\']([^"\']+)["\']'
+    match = re.search(img_pattern, description)
+    if match:
+        return match.group(1)
+    return None
+
+def extract_source_from_link(link):
+    if not link:
+        return None
+    from urllib.parse import urlparse
+    parsed = urlparse(link)
+    return parsed.netloc.replace('www.', '')
 
 
 @app.route('/immediate/')
@@ -343,7 +407,8 @@ def user_date_year_month(id, y, m, page=1):
 
 
 @app.route('/<id>/rss/')
-def user_rss(id):
+def user_rss_page(id):
+    import time
     user_ok = False
     for user in rs.url["user"]:
         if id == user["user"]:
@@ -351,7 +416,24 @@ def user_rss(id):
             break
     if not user_ok:
         abort(404, id)
-    return rss(base_url='user/' + user_ok['user']+'/all')
+    
+    data = fetch(SOURCE_BASE + 'user/' + user_ok['user'] + '/all/rss.xml', type="xml")
+    items = parse_rss_for_display(data)
+    return render_template('rss.html', 
+                           items=items,
+                           val=int(time.time()))
+
+@app.route('/<id>/rss.xml')
+def user_rss_xml(id):
+    user_ok = False
+    for user in rs.url["user"]:
+        if id == user["user"]:
+            user_ok = user
+            break
+    if not user_ok:
+        abort(404, id)
+    url = SOURCE_BASE + 'user/' + user_ok['user'] + '/all/rss.xml'
+    return fetch(url, type="xml"), 200, {'Content-Type': 'text/xml; charset=utf-8'}
 
 
 if __name__ == '__main__':
