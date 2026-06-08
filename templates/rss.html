@@ -34,18 +34,34 @@
             font-size: 0.9rem;
         }
         
+        .rss-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
         .rss-link {
             display: inline-block;
-            margin-top: 15px;
             padding: 8px 16px;
             background-color: #FEDC5E;
             color: #333;
             border-radius: 5px;
             font-size: 0.85rem;
+            text-decoration: none;
         }
         
         .rss-link:hover {
             background-color: #F5C800;
+        }
+        
+        .rss-home-link {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .rss-home-link:hover {
+            background-color: #e0e0e0;
         }
         
         body.dark-mode .rss-link {
@@ -55,6 +71,15 @@
         
         body.dark-mode .rss-link:hover {
             background-color: #C9B88A;
+        }
+        
+        body.dark-mode .rss-home-link {
+            background-color: #3a3a3a;
+            color: #a9a9b3;
+        }
+        
+        body.dark-mode .rss-home-link:hover {
+            background-color: #4a4a4a;
         }
         
         .rss-item {
@@ -178,7 +203,10 @@
         <div class="rss-header">
             <h1 class="rss-title">📡 RSS Feed</h1>
             <p class="rss-subtitle">订阅您喜爱的博客内容</p>
-            <a href="/rss.xml" class="rss-link" target="_blank">📄 获取 XML 订阅链接</a>
+            <div class="rss-buttons">
+                <a href="/" class="rss-link rss-home-link">🏠 回到首页</a>
+                <a href="/rss.xml" class="rss-link" target="_blank">📄 获取 XML 订阅链接</a>
+            </div>
         </div>
         
         {% if items %}
