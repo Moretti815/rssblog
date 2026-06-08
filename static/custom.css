@@ -463,88 +463,153 @@ body.dark-mode .fixedbox .actiontheme:hover {
   background-color: #777777;
 }
 
+/* Reset light mode styles */
+body.light-mode {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.light-mode .title a {
+  color: #000000 !important;
+}
+
+body.light-mode .normalink {
+  color: #000000 !important;
+}
+
+body.light-mode .normalink:hover {
+  color: #0070f3 !important;
+}
+
+body.light-mode .card:hover,
+body.light-mode .card:focus,
+body.light-mode .card:active,
+body.light-mode .membercard:hover,
+body.light-mode .membercard:focus,
+body.light-mode .membercard:active {
+  background-color: aliceblue !important;
+}
+
+body.light-mode .cardindex,
+body.light-mode .cardtitle {
+  color: #000000 !important;
+}
+
+body.light-mode .card,
+body.light-mode .membercard {
+  border: 1px solid #eaeaea !important;
+}
+
+body.light-mode .pagination li a {
+  color: #7a4ba2 !important;
+}
+body.light-mode .pagination li a.active {
+  color: #acacac !important;
+  background-color: aliceblue !important;
+}
+body.light-mode .pagination li a:hover:not(.active) {
+  color: #acacac !important;
+  background-color: #cecece !important;
+}
+
+body.light-mode .grid .date a {
+  color: rgb(47, 63, 206) !important;
+}
+
+body.light-mode .grid .date a.disable {
+  color: #cecece !important;
+}
+
+body.light-mode .fixedbox .actiongithub,
+body.light-mode .fixedbox .actiontop,
+body.light-mode .fixedbox .actionbottom,
+body.light-mode .fixedbox .actiontheme {
+  border-radius: 0.125rem !important;
+  background-color: transparent !important;
+}
+
 /* system dark mode fallback */
 @media (prefers-color-scheme: dark) {
-  body:not(.light-mode) {
+  body:not(.light-mode):not(.dark-mode) {
     background-color: #292a2d;
     color: #a9a9b3;
   }
 
-  body:not(.light-mode) .title a {
+  body:not(.light-mode):not(.dark-mode) .title a {
     color: #cecece;
   }
 
-  body:not(.light-mode) .normalink {
+  body:not(.light-mode):not(.dark-mode) .normalink {
     color: #cecece;
   }
 
-  body:not(.light-mode) .normalink:hover {
+  body:not(.light-mode):not(.dark-mode) .normalink:hover {
     color: #efefef;
   }
 
-  body:not(.light-mode) .card:hover,
-  body:not(.light-mode) .card:focus,
-  body:not(.light-mode) .card:active,
-  body:not(.light-mode) .membercard:hover,
-  body:not(.light-mode) .membercard:focus,
-  body:not(.light-mode) .membercard:active {
+  body:not(.light-mode):not(.dark-mode) .card:hover,
+  body:not(.light-mode):not(.dark-mode) .card:focus,
+  body:not(.light-mode):not(.dark-mode) .card:active,
+  body:not(.light-mode):not(.dark-mode) .membercard:hover,
+  body:not(.light-mode):not(.dark-mode) .membercard:focus,
+  body:not(.light-mode):not(.dark-mode) .membercard:active {
     background-color: #3a3a3a;
   }
 
-  body:not(.light-mode) .card:hover .cardtitle,
-  body:not(.light-mode) .card:focus .cardtitle,
-  body:not(.light-mode) .card:active .cardtitle,
-  body:not(.light-mode) .membercard:hover .cardtitle,
-  body:not(.light-mode) .membercard:focus .cardtitle,
-  body:not(.light-mode) .membercard:active .cardtitle {
+  body:not(.light-mode):not(.dark-mode) .card:hover .cardtitle,
+  body:not(.light-mode):not(.dark-mode) .card:focus .cardtitle,
+  body:not(.light-mode):not(.dark-mode) .card:active .cardtitle,
+  body:not(.light-mode):not(.dark-mode) .membercard:hover .cardtitle,
+  body:not(.light-mode):not(.dark-mode) .membercard:focus .cardtitle,
+  body:not(.light-mode):not(.dark-mode) .membercard:active .cardtitle {
     color: #efefef;
   }
 
-  body:not(.light-mode) .cardindex,
-  body:not(.light-mode) .cardtitle {
+  body:not(.light-mode):not(.dark-mode) .cardindex,
+  body:not(.light-mode):not(.dark-mode) .cardtitle {
     color: #cecece;
   }
 
-  body:not(.light-mode) .card,
-  body:not(.light-mode) .membercard {
+  body:not(.light-mode):not(.dark-mode) .card,
+  body:not(.light-mode):not(.dark-mode) .membercard {
     border: 1px solid #7a7a7a;
   }
 
-  body:not(.light-mode) .pagination li a {
+  body:not(.light-mode):not(.dark-mode) .pagination li a {
     color: #cecece;
   }
-  body:not(.light-mode) .pagination li a.active {
+  body:not(.light-mode):not(.dark-mode) .pagination li a.active {
     color: #efefef;
     background-color: #3a3a3a;
   }
-  body:not(.light-mode) .pagination li a:hover:not(.active) {
+  body:not(.light-mode):not(.dark-mode) .pagination li a:hover:not(.active) {
     color: #efefef;
     background-color: transparent;
   }
 
-  body:not(.light-mode) .grid .date a {
+  body:not(.light-mode):not(.dark-mode) .grid .date a {
     color: #cecece;
   }
 
-  body:not(.light-mode) .grid .date .year {
+  body:not(.light-mode):not(.dark-mode) .grid .date .year {
     color: #7a7a7a;
   }
 
-  body:not(.light-mode) .grid .date a.disable {
+  body:not(.light-mode):not(.dark-mode) .grid .date a.disable {
     color: #777777;
   }
 
-  body:not(.light-mode) .fixedbox .actiongithub,
-  body:not(.light-mode) .fixedbox .actiontop,
-  body:not(.light-mode) .fixedbox .actionbottom,
-  body:not(.light-mode) .fixedbox .actiontheme {
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiongithub,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiontop,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actionbottom,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiontheme {
     border-radius: 50%;
     background-color: #3a3a3a;
   }
-  body:not(.light-mode) .fixedbox .actiongithub:hover,
-  body:not(.light-mode) .fixedbox .actiontop:hover,
-  body:not(.light-mode) .fixedbox .actionbottom:hover,
-  body:not(.light-mode) .fixedbox .actiontheme:hover {
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiongithub:hover,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiontop:hover,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actionbottom:hover,
+  body:not(.light-mode):not(.dark-mode) .fixedbox .actiontheme:hover {
     background-color: #777777;
   }
 }
