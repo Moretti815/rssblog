@@ -18,5 +18,26 @@ function closeNotice() {
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     closeNotice();
-  }, 30000); // 30秒 = 30000毫秒
+  }, 30000);
+  initTheme();
 });
+
+// 主题切换功能
+function initTheme() {
+  var savedTheme = localStorage.getItem('rssblog-theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  } else if (prefersDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+function toggleTheme() {
+  var currentTheme = document.documentElement.getAttribute('data-theme');
+  var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('rssblog-theme', newTheme);
+}
