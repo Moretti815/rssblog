@@ -18,35 +18,44 @@ function closeNotice() {
 window.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
     closeNotice();
-  }, 30000);
+  }, 30000); // 30秒 = 30000毫秒
+  
+  // 初始化主题
+  initTheme();
 });
 
 // 主题切换功能
-function getPreferredTheme() {
-  if (localStorage.getItem("theme")) {
-    return localStorage.getItem("theme");
-  }
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    return "dark";
-  }
-  return "light";
-}
-
-function setTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem("theme", theme);
-}
-
 function toggleTheme() {
-  var currentTheme = getPreferredTheme();
-  var newTheme = currentTheme === "dark" ? "light" : "dark";
-  setTheme(newTheme);
+  var body = document.body;
+  
+  if (body.classList.contains("dark-mode")) {
+    // 切换到浅色模式
+    body.classList.remove("dark-mode");
+    body.classList.add("light-mode");
+    localStorage.setItem("theme", "light");
+  } else {
+    // 切换到深色模式
+    body.classList.add("dark-mode");
+    body.classList.remove("light-mode");
+    localStorage.setItem("theme", "dark");
+  }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  var themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", toggleTheme);
+// 初始化主题
+function initTheme() {
+  var savedTheme = localStorage.getItem("theme");
+  var body = document.body;
+  
+  if (savedTheme === "dark") {
+    body.classList.add("dark-mode");
+    body.classList.remove("light-mode");
+  } else if (savedTheme === "light") {
+    body.classList.add("light-mode");
+    body.classList.remove("dark-mode");
+  } else {
+    // 跟随系统设置
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      body.classList.add("dark-mode");
+    }
   }
-  setTheme(getPreferredTheme());
-});
+}
